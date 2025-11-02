@@ -1,5 +1,3 @@
-
-import os
 import json
 from typing import List, Dict, Optional, Any
 from datetime import datetime
@@ -48,8 +46,8 @@ class AgenticRAG:
     def __init__(self, memory_path: str = "memory_store"):
         """Initialize the Agentic RAG System."""
         logger.info("🚀 Initializing Agentic RAG System with initialize_agent()...")
-        
-        # Core components
+
+
         self.llm = ChatOpenAI(model=settings.model_name, temperature=settings.temperature,api_key=settings.openai_api_key)
         self.embeddings = OpenAIEmbeddings()
         self.vectorstore: Optional[FAISS] = None
