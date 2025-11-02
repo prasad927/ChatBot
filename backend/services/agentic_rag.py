@@ -1,7 +1,7 @@
 
 import os
 import json
-from typing import List, Dict, Tuple, Optional, Any
+from typing import List, Dict, Optional, Any
 from datetime import datetime
 from pathlib import Path
 from dataclasses import asdict
@@ -13,7 +13,6 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_community.vectorstores import FAISS
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_core.documents import Document
 from langchain.memory import ConversationBufferMemory
 
 # Tool imports
@@ -27,6 +26,7 @@ from backend.services.tool_text_analysis import TextAnalysisTool
 from backend.services.tool_python_calculator import PythonCalculatorTool
 from backend.services.logger import logger
 from backend.models.schemas import InteractionLog
+from backend.config.settings import settings
 
 
 # Tavily Search (replaces SerpAPI)
@@ -35,7 +35,7 @@ try:
     TAVILY_AVAILABLE = True
 except ImportError:
     TAVILY_AVAILABLE = False
-    print("⚠️  Tavily not available. Install: pip install tavily-python")
+    print("Tavily not available. Install: pip install tavily-python")
 
 
 class AgenticRAG:
@@ -50,7 +50,7 @@ class AgenticRAG:
         logger.info("🚀 Initializing Agentic RAG System with initialize_agent()...")
         
         # Core components
-        self.llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
+        self.llm = ChatOpenAI(model=settings.model_name, temperature=settings.temperature,api_key=settings.openai_api_key)
         self.embeddings = OpenAIEmbeddings()
         self.vectorstore: Optional[FAISS] = None
         self.document_metadata: Dict[str, Any] = {}
@@ -209,7 +209,7 @@ Example: "List these as bullets: A, B, C" → input: "A, B, C"."""
         )
         
         # 5. Web Search Tool - ONLY when user explicitly asks for real-time info
-        if TAVILY_AVAILABLE and os.getenv('TAVILY_API_KEY'):
+        if TAVILY_AVAILABLE and len (settings.tavily_api_key) !=0:
             try:
                 # TavilySearchResults is already a BaseTool, use directly
                 tavily_tool = TavilySearchResults(
