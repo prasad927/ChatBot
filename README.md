@@ -31,3 +31,11 @@ A modern, full-stack AI-powered ChatBot application with a beautiful Gradio fron
    ```bash
    python start_services.py
    ```
+
+
+
+# Working examples
+
+![PDF processed successfully](images/document_process_success.png "PDF processed successfully")
+
+![WebSearch look call](images/websearch_tool_call_success.png "WebSearch tool called")
