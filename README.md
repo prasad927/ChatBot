@@ -34,8 +34,12 @@ A modern, full-stack AI-powered ChatBot application with a beautiful Gradio fron
 
 
 
-# Working examples
+## Working examples
+
+### PDF processed successfully
 
 ![PDF processed successfully](images/document_process_success.png "PDF processed successfully")
+
+### WebSearch Tool call
 
 ![WebSearch look call](images/websearch_tool_call_success.png "WebSearch tool called")
